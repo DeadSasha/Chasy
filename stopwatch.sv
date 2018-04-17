@@ -16,25 +16,24 @@ logic start_stop;
 logic button_reset_en;
 
 
-always_ff @(posedge button_start_stop)
+always_ff @(posedge clock, negedge reset)
+if (~reset)
 begin
-if (button_start_stop == 1)
-	begin
-		if (rezhim == 2) 
-			begin
-				if (start_stop == 0) start_stop <= 1;
-				else	start_stop <= 0;
-			end
-	end 
+	start_stop <= 0;
+end else
+begin
+	if ((button_start_stop == 1) & (rezhim == 2)) start_stop <= ~start_stop;  
+		else	start_stop = start_stop;
 end
 
-always_ff @(posedge button_reset)
+always_ff @(posedge clock, negedge reset)
+if (~reset)
 begin
-if (button_reset == 1)
-	begin
-		if (rezhim == 2) button_reset_en <= 1;
-		else button_reset_en <= 0;
-	end
+	button_reset_en <= 0;
+end else
+begin
+	if ((button_reset == 1) & (rezhim == 2)) button_reset_en <= 1;
+	else button_reset_en <= 0;
 end
 
 	counter

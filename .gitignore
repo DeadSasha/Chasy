@@ -1,0 +1,6 @@
+*.bak
+dghg/*
+simulation/*
+output_files/*
+incremental_db/*
+db/*

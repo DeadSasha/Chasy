@@ -35,7 +35,7 @@ begin
 			out_imp <= 0;
 			data <= i_initial;
 		end
-	else if (setup_imp == 1) data <= setup_data;
+	else if (setup_imp == 1) data <= start_val;
 	else
 		begin
 			if (work_en == 1)

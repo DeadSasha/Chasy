@@ -2,7 +2,6 @@ module chasy
 (
 input logic clock,
 input logic reset,
-input logic switch1,
 input logic [0:3] button,
 output logic [6:0] ssegment0,
 output logic [6:0] ssegment1,
@@ -59,11 +58,7 @@ logic setup_imp;
 always_ff @(posedge work_button[0], negedge reset)
 begin
 if (~reset) rezhim <= 0;
-else if (work_button[0] == 1) 
-	begin
-		if (switch1 == 0) rezhim <= rezhim + 1;
-		else rezhim <= rezhim;
-	end
+else if (work_button[0] == 1) rezhim <= rezhim + 1;
 else rezhim <= rezhim;
 end
 
@@ -87,6 +82,7 @@ SEG7counter display
 setup SET_TIME
 (
 	.clock						(clock),
+	.reset						(reset),
 	.data_ch						(data_ch),
 	.button						(work_button),
 	.rezhim						(rezhim),
@@ -108,10 +104,7 @@ timer TIMER
 	.clock						(clock),
 	.reset						(reset),
 	.rezhim						(rezhim),
-	.button_start_stop		(work_button[1]),
-	.button_reset				(work_button[2]),
-	.setup_data					(setup_data),
-	.setup_imp					(setup_imp),
+	.button						(work_button),
 	.data_t						(data_t),
 	.led							(led)
 ); 
