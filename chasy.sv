@@ -55,7 +55,7 @@ antidrebezg button4
 logic [1:0] rezhim;
 logic setup_imp;
 
-always_ff @(posedge work_button[0], negedge reset)
+always_ff @(posedge clock, negedge reset)
 begin
 if (~reset) rezhim <= 0;
 else if (work_button[0] == 1) rezhim <= rezhim + 1;
