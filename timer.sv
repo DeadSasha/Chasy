@@ -1,7 +1,7 @@
 module timer
 (
 input logic clock,
-input logic reset,
+input logic reset, //reset
 input logic [1:0] rezhim,
 input logic button_start_stop,
 input logic button_reset,
