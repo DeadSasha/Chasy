@@ -53,7 +53,11 @@ if (clock == 1)
 	begin
 		if (rezhim == 1)
 			begin
-				if (setup_rezhim == 0) setup_data <= data_t;
+				if (setup_rezhim == 0)
+					begin
+					setup_imp <= 0;
+					setup_data <= data_t;
+					end
 				else if ((setup_rezhim == 1) & (button[1] == 1)) 
 					begin
 						if (setup_data[7:0] < 59) setup_data[7:0] <= setup_data[7:0] + 1;

@@ -8,7 +8,7 @@ input logic clock,
 input logic reset,
 input logic	set,
 input logic setup_imp,
-input logic setup_data,
+input logic [def::numofbits(fin_val)-1:0] setup_data,
 input logic	i_initial,
 input logic work_en,
 input logic up_down,
@@ -35,7 +35,11 @@ begin
 			out_imp <= 0;
 			data <= i_initial;
 		end
-	else if (setup_imp == 1) data <= start_val;
+	else if (setup_imp == 1) 
+		begin
+		out_imp <= 0;
+		data <= setup_data;
+		end
 	else
 		begin
 			if (work_en == 1)
