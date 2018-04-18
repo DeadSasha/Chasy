@@ -11,27 +11,33 @@ output logic setup_imp
 
 logic [1:0] setup_rezhim;
 
+
 always_ff @(posedge button[2], negedge reset)
 begin
 if (~reset) setup_rezhim <= 0;
 else if (button[2] == 1) 
 	begin
 		if (rezhim == 3) setup_rezhim <= setup_rezhim + 1;
-		else setup_rezhim <= setup_rezhim;
+		else setup_rezhim <= 0;
 	end
 else setup_rezhim <= setup_rezhim;
 end
 
-always_ff @(posedge clock)
+always_ff @(posedge clock, negedge reset)
 begin
-if (clock == 1) 
+if (~reset) 
+	begin
+		setup_imp <= 0;
+		setup_data <= 0;
+	end
+else if (clock == 1) 
 	begin
 		if (rezhim == 3)
 			begin
 				if (setup_rezhim == 0) 
 					begin
 					setup_imp <= 0;
-					setup_data <= data_ch;
+					setup_data <= 0;
 					end
 				else if ((setup_rezhim == 1) & (button[1] == 1)) 
 					begin

@@ -5,7 +5,9 @@ input logic reset,
 input logic [1:0] rezhim,
 input logic [0:3] button,
 output logic [23:0] data_t,
-output logic [3:0] led
+output logic [3:0] led,
+output logic [1:0] setup_rezhim_t,
+output logic [23:0] setup_data_t
 ); 
 
 logic sec_imp;
@@ -32,50 +34,53 @@ begin
 		else	start_stop = start_stop;
 end
 
-logic [23:0] setup_data;
-logic [1:0] setup_rezhim;
 logic setup_imp;
 
 always_ff @(posedge button[2], negedge reset)
 begin
-if (~reset) setup_rezhim <= 0;
+if (~reset) setup_rezhim_t <= 0;
 else if (button[2] == 1) 
 	begin
-		if (rezhim == 1) setup_rezhim <= setup_rezhim + 1;
-		else setup_rezhim <= setup_rezhim;
+		if (rezhim == 1) setup_rezhim_t <= setup_rezhim_t + 1;
+		else setup_rezhim_t <= 0;
 	end
-else setup_rezhim <= setup_rezhim;
+else setup_rezhim_t <= setup_rezhim_t;
 end
 
-always_ff @(posedge clock)
+always_ff @(posedge clock, negedge reset)
 begin
-if (clock == 1) 
+if (~reset) 
+	begin
+		setup_imp <= 0;
+		setup_data_t <= 0;
+	end
+else if (clock == 1) 
 	begin
 		if (rezhim == 1)
 			begin
-				if (setup_rezhim == 0)
+				if (setup_rezhim_t == 0)
 					begin
 					setup_imp <= 0;
-					setup_data <= data_t;
+					setup_data_t <= data_t;
 					end
-				else if ((setup_rezhim == 1) & (button[1] == 1)) 
+				else if ((setup_rezhim_t == 1) & (button[1] == 1)) 
 					begin
-						if (setup_data[7:0] < 59) setup_data[7:0] <= setup_data[7:0] + 1;
-						else setup_data[7:0] <= 0;
+						if (setup_data_t[7:0] < 59) setup_data_t[7:0] <= setup_data_t[7:0] + 1;
+						else setup_data_t[7:0] <= 0;
 					end
-				else if ((setup_rezhim == 2) & (button[1] == 1)) 
+				else if ((setup_rezhim_t == 2) & (button[1] == 1)) 
 					begin
-						if (setup_data[15:8] < 59) setup_data[15:8] <= setup_data[15:8] + 1;
-						else setup_data[15:8] <= 0;
+						if (setup_data_t[15:8] < 59) setup_data_t[15:8] <= setup_data_t[15:8] + 1;
+						else setup_data_t[15:8] <= 0;
 					end
-				else if ((setup_rezhim == 3) & (button[1] == 1)) 
+				else if ((setup_rezhim_t == 3) & (button[1] == 1)) 
 					begin
-						if (setup_data[23:16] < 23) setup_data[23:16] <= setup_data[23:16] + 1;
-						else setup_data[23:16] <= 0;
+						if (setup_data_t[23:16] < 23) setup_data_t[23:16] <= setup_data_t[23:16] + 1;
+						else setup_data_t[23:16] <= 0;
 						if (button[2] == 1) setup_imp <= 1;
 						else setup_imp <= 0;
 					end
-				else setup_data <= setup_data;
+				else setup_data_t <= setup_data_t;
 			end
 	end
 end
@@ -129,7 +134,7 @@ end
 	.clock 					(clock),
 	.reset 					(reset),
 	.setup_imp				(setup_imp),
-	.setup_data				(setup_data[7:0]),
+	.setup_data				(setup_data_t[7:0]),
 	.set 						(day_imp),
 	.i_initial 				(1'b0),
 	.work_en 				(sec_imp),
@@ -150,7 +155,7 @@ end
 	.clock 					(clock),
 	.reset 					(reset),
 	.setup_imp				(setup_imp),
-	.setup_data				(setup_data[15:8]),
+	.setup_data				(setup_data_t[15:8]),
 	.set 						(day_imp),
 	.i_initial 				(1'b0),
 	.work_en 				(min_imp),
@@ -171,7 +176,7 @@ end
 	.clock 					(clock),
 	.reset 					(reset),
 	.setup_imp				(setup_imp),
-	.setup_data				(setup_data[23:16]),
+	.setup_data				(setup_data_t[23:16]),
 	.set 						(day_imp),
 	.i_initial 				(1'b0),
 	.work_en 				(hour_imp),

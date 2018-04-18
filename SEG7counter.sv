@@ -7,6 +7,8 @@ input logic [23:0] data_t,
 input logic [23:0] data_s,
 input logic [23:0] setup_data,
 input logic [1:0]	rezhim,
+input logic [1:0] setup_rezhim_t,
+input logic [23:0] setup_data_t,
 output logic [6:0] ssegmentHL,
 output logic [6:0] ssegmentHR,
 output logic [6:0] ssegmentML,
@@ -31,7 +33,8 @@ if (rezhim == 0)
 	end
 else if (rezhim == 1)
 	begin
-	data <= data_t;
+	if ((setup_rezhim_t == 1) | (setup_rezhim_t == 2) | (setup_rezhim_t == 3)) data <= setup_data_t;
+	else data <= data_t;
 	hour <= data[23:16];
 	min <= data[15:8];
 	sec <= data[7:0];	

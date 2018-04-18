@@ -18,7 +18,8 @@ logic [23:0] data_ch;
 logic [23:0] data_s;
 logic [23:0] data_t;
 logic [23:0] setup_data;
-
+logic [1:0] rezhim;
+logic setup_imp;
 
 antidrebezg button1
 (
@@ -52,8 +53,6 @@ antidrebezg button4
 	.pulse					(work_button[3])
 );
 
-logic [1:0] rezhim;
-logic setup_imp;
 
 always_ff @(posedge clock, negedge reset)
 begin
@@ -61,6 +60,9 @@ if (~reset) rezhim <= 0;
 else if (work_button[0] == 1) rezhim <= rezhim + 1;
 else rezhim <= rezhim;
 end
+
+logic [1:0] setup_rezhim_t;
+logic [23:0] setup_data_t;
 
 SEG7counter display
 (
@@ -71,6 +73,8 @@ SEG7counter display
 	.data_s						(data_s),
 	.setup_data					(setup_data),
 	.rezhim						(rezhim),
+	.setup_rezhim_t			(setup_rezhim_t),
+	.setup_data_t				(setup_data_t),
 	.ssegmentHL					(ssegment5),
 	.ssegmentHR					(ssegment4),
 	.ssegmentML					(ssegment3),
@@ -106,6 +110,8 @@ timer TIMER
 	.rezhim						(rezhim),
 	.button						(work_button),
 	.data_t						(data_t),
+	.setup_rezhim_t			(setup_rezhim_t),
+	.setup_data_t				(setup_data_t),
 	.led							(led)
 ); 
 
