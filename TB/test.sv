@@ -23,7 +23,7 @@ output logic [0:3] button
     clock = 0;
     reset = 0;
     //Инициализация начальных значений переменных
-    button = 1;
+    button = 0;
 
 	    
     //Процедурный блок fork ... join состоит из несккольких последовательных блоков, которые в свою очередь,
@@ -36,37 +36,92 @@ output logic [0:3] button
                                     //первое значение в команде директиве timescale
       //Второй последовательный блок
       //Описание сигнала сброса
-      forever
-      begin
-      #10 reset = ~reset;
-      #2700000 reset = ~reset;     //описание генерации сигнала сброса
-      #10 reset = ~reset;     //в соответствии с описанием модуля, устройство работает при значении "1"
-      end
-      //Третий последовательный блок
-      //Вывод информации о значении выходных портов устройства в консоль
-      forever
-      begin
-      #5000 button[3] = ~button[3];
-      #55000 button[3] = ~button[3];
-      end
       
-      forever
-      begin
-      #10000 button[2] = ~button[2];
-      #5000 button[2] = ~button[2];
-      end
-      
-      forever
-      begin
-      #11000 button[1] = ~button[1];
-      #4000 button[1] = ~button[1];
-      end
-      
-      forever
-      begin
-      #10000 button[0] = ~button[0];
-      #5000 button[0] = ~button[0];
-      end
+	  forever begin
+	  #2 reset = ~reset;
+	  #100000 button[3] = ~button[3];
+	  #600 button[3] = ~button[3];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[0] = ~button[0];
+	  #600 button[0] = ~button[0];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[0] = ~button[0];
+	  #600 button[0] = ~button[0];
+	  #10 button[3] = ~button[3];
+	  #600 button[3] = ~button[3];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #100000 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[3] = ~button[3];
+	  #600 button[3] = ~button[3];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[2] = ~button[2];
+	  #600 button[2] = ~button[2];
+	  #10 button[0] = ~button[0];
+	  #600 button[0] = ~button[0];
+	  #10 button[1] = ~button[1];
+	  #600 button[1] = ~button[1];
+	  #10 button[3] = ~button[3];
+	  #600 button[3] = ~button[3];
+	  #2 reset = ~reset;
+	  end
+	  
+	 // forever
+     // begin
+     // #10 reset = ~reset;
+     // #2700000 reset = ~reset;     //описание генерации сигнала сброса
+     // #10 reset = ~reset;     //в соответствии с описанием модуля, устройство работает при значении "1"
+     // end
+     // //Третий последовательный блок
+     // //Вывод информации о значении выходных портов устройства в консоль
+	 // 
+     // forever
+     // begin
+     // #5000 button[3] = ~button[3];
+     // #55000 button[3] = ~button[3];
+     // end
+     // 
+     // forever
+     // begin
+     // #10000 button[2] = ~button[2];
+     // #5000 button[2] = ~button[2];
+     // end
+     // 
+     // forever
+     // begin
+     // #11000 button[1] = ~button[1];
+     // #4000 button[1] = ~button[1];
+     // end
+     // 
+     // forever
+     // begin
+     // #10000 button[0] = ~button[0];
+     // #5000 button[0] = ~button[0];
+     // end
       
 //     forever begin
 //       @(posedge second);  //Оператор ожидания фронта секундного импульса от устройтва

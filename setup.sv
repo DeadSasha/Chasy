@@ -36,8 +36,8 @@ else if (clock == 1)
 			begin
 				if (setup_rezhim == 0) 
 					begin
+					setup_data <= data_ch;
 					setup_imp <= 0;
-					setup_data <= 0;
 					end
 				else if ((setup_rezhim == 1) & (button[1] == 1)) 
 					begin
@@ -53,6 +53,9 @@ else if (clock == 1)
 					begin
 						if (setup_data[23:16] < 23) setup_data[23:16] <= setup_data[23:16] + 1;
 						else setup_data[23:16] <= 0;
+					end
+				else if (setup_rezhim == 3) 
+					begin
 						if (button[2] == 1) setup_imp <= 1;
 						else setup_imp <= 0;
 					end

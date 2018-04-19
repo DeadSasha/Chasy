@@ -15,7 +15,6 @@ logic min_imp;
 logic hour_imp;
 logic day_imp;
 logic start_stop;
-logic button_reset_en;
 
 /*
 always_comb
@@ -30,7 +29,11 @@ begin
 	start_stop <= 0;
 end else
 begin
-	if ((button[3] == 1) & (rezhim == 1)) start_stop <= ~start_stop;  
+	if ((button[3] == 1) & (rezhim == 1))
+		begin
+			if (setup_rezhim_t != 0) start_stop <= ~start_stop;
+			else	start_stop = start_stop;
+		end
 		else	start_stop = start_stop;
 end
 
@@ -60,7 +63,6 @@ else if (clock == 1)
 			begin
 				if (setup_rezhim_t == 0)
 					begin
-					setup_imp <= 0;
 					setup_data_t <= data_t;
 					end
 				else if ((setup_rezhim_t == 1) & (button[1] == 1)) 
@@ -77,6 +79,9 @@ else if (clock == 1)
 					begin
 						if (setup_data_t[23:16] < 23) setup_data_t[23:16] <= setup_data_t[23:16] + 1;
 						else setup_data_t[23:16] <= 0;
+					end
+				else if (setup_rezhim_t == 3) 
+					begin
 						if (button[2] == 1) setup_imp <= 1;
 						else setup_imp <= 0;
 					end

@@ -33,7 +33,7 @@ if (rezhim == 0)
 	end
 else if (rezhim == 1)
 	begin
-	if ((setup_rezhim_t == 1) | (setup_rezhim_t == 2) | (setup_rezhim_t == 3)) data <= setup_data_t;
+	if (setup_rezhim_t != 0) data <= setup_data_t;
 	else data <= data_t;
 	hour <= data[23:16];
 	min <= data[15:8];
