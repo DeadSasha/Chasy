@@ -15,7 +15,7 @@ input logic up_down,
 input logic timer_reset,
 input logic [1:0] rezhim,
 output logic out_imp,
-output logic [def::numofbits(fin_val)-1:0] data
+output logic [7:0] data
 );
 
 always_ff @(posedge clock,negedge reset)
@@ -25,57 +25,61 @@ begin
 			out_imp <= 0;
 			data <= start_val;
 		end
-	else if (timer_reset == 1)
-		begin
-			out_imp <= 0;
-			data <= start_val;
-		end
-	else if (set == 1) 
-		begin
-			out_imp <= 0;
-			data <= i_initial;
-		end
-	else if (setup_imp == 1) 
-		begin
-		out_imp <= 0;
-		data <= setup_data;
-		end
-	else
-		begin
-			if (work_en == 1)
-				begin
-					if (up_down == 1)
-						begin
-							if (data < fin_val)
-								begin
-									data <= data + 1;
-									out_imp <= 0;
-								end
-							else 
-								begin
-									out_imp <= 1;
-									data <= start_val;
-								end
-						end
-					else
-						begin
-							if (data == start_val)
-								begin
-									data <= fin_val;
-									out_imp <= 1;
-								end
-							else 
-								begin
-									data <= data - 1;
-									out_imp <= 0;
-								end
-						end
-				end
-			else begin
+	else 
+	begin
+	
+		if (timer_reset == 1)
+			begin
 				out_imp <= 0;
-				data <= data;
-				end	
-		end
+				data <= start_val;
+			end
+		else if (set == 1) 
+			begin
+				out_imp <= 0;
+				data <= i_initial;
+			end
+		else if (setup_imp == 1) 
+			begin
+			out_imp <= 0;
+			data <= setup_data;
+			end
+		else
+			begin
+				if (work_en == 1)
+					begin
+						if (up_down == 1)
+							begin
+								if (data < fin_val)
+									begin
+										data <= data + 1;
+										out_imp <= 0;
+									end
+								else 
+									begin
+										out_imp <= 1;
+										data <= start_val;
+									end
+							end
+						else
+							begin
+								if (data == start_val)
+									begin
+										data <= fin_val;
+										out_imp <= 1;
+									end
+								else 
+									begin
+										data <= data - 1;
+										out_imp <= 0;
+									end
+							end
+					end
+				else begin
+					out_imp <= 0;
+					data <= data;
+					end	
+			end
+	end
 end
 
 endmodule

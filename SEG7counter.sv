@@ -24,7 +24,14 @@ logic [7:0] sec;
 
 always_ff @(posedge clock)
 begin
-if (clock == 1)
+if (reset == 0)
+	begin
+	data <= 0;
+	hour <= 0;
+	min <= 0;
+	sec <= 0;
+	end
+else 
 	begin
 	if (rezhim == 0)
 		begin

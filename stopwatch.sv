@@ -36,7 +36,7 @@ begin
 	else button_reset_en <= 0;
 end
 
-	counter
+	divider
 	#(
 	.start_val 				(0),
 	.fin_val					(50000000)
@@ -45,16 +45,8 @@ end
 	(		
 	.clock 					(clock),
 	.reset 					(reset),
-	.setup_imp				(button_reset_en),
-	.setup_data				(0),
-	.set 						(1'b0),
-	.i_initial 				(),
 	.work_en 				(start_stop),
-	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
-	.out_imp 				(sec_imp),
-	.data						()
+	.out_imp 				(sec_imp)
 	);		
 			
 	counter		

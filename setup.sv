@@ -15,12 +15,15 @@ logic [1:0] setup_rezhim;
 always_ff @(posedge button[2], negedge reset)
 begin
 if (~reset) setup_rezhim <= 0;
-else if (button[2] == 1) 
+else
 	begin
-		if (rezhim == 3) setup_rezhim <= setup_rezhim + 1;
-		else setup_rezhim <= 0;
+	if (button[2] == 1) 
+		begin
+			if (rezhim == 3) setup_rezhim <= setup_rezhim + 1;
+			else setup_rezhim <= 0;
+		end
+	else setup_rezhim <= setup_rezhim;
 	end
-else setup_rezhim <= setup_rezhim;
 end
 
 always_ff @(posedge clock, negedge reset)
@@ -30,7 +33,7 @@ if (~reset)
 		setup_imp <= 0;
 		setup_data <= 0;
 	end
-else if (clock == 1) 
+else
 	begin
 		if (rezhim == 3)
 			begin
@@ -60,6 +63,7 @@ else if (clock == 1)
 					end
 				else setup_data <= setup_data;
 			end
+		else setup_data <= setup_data;	
 	end
 end
 

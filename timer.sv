@@ -34,7 +34,7 @@ begin
 			if (setup_rezhim_t == 0) start_stop <= ~start_stop;
 			else	start_stop <= start_stop;
 		end
-		else	start_stop <= start_stop;
+	else	start_stop <= start_stop;
 end
 
 logic setup_imp;
@@ -42,12 +42,15 @@ logic setup_imp;
 always_ff @(posedge button[2], negedge reset)
 begin
 if (~reset) setup_rezhim_t <= 0;
-else if (button[2] == 1) 
+else 
 	begin
-		if (rezhim == 1) setup_rezhim_t <= setup_rezhim_t + 1;
-		else setup_rezhim_t <= 0;
+		if (button[2] == 1) 
+			begin
+				if (rezhim == 1) setup_rezhim_t <= setup_rezhim_t + 1;
+				else setup_rezhim_t <= 0;
+			end
+		else setup_rezhim_t <= setup_rezhim_t;
 	end
-else setup_rezhim_t <= setup_rezhim_t;
 end
 
 always_ff @(posedge clock, negedge reset)
@@ -57,7 +60,7 @@ if (~reset)
 		setup_imp <= 0;
 		setup_data_t <= 0;
 	end
-else if (clock == 1) 
+else
 	begin
 		if (rezhim == 1)
 			begin
@@ -88,6 +91,7 @@ else if (clock == 1)
 					end
 				else setup_data_t <= setup_data_t;
 			end
+		else setup_data_t <= setup_data_t;	
 	end
 end
 
@@ -100,7 +104,7 @@ led = led;
 if (data_t == 0) 
 	begin
 	led = '1;
-	flag = 1;
+	flag = 0;
 	end
 else 
 	begin
@@ -109,7 +113,7 @@ else
 	end
 end
 
-	counter
+	divider
 	#(
 	.start_val 				(0),
 	.fin_val					(50000000)
@@ -118,17 +122,9 @@ end
 	(		
 	.clock 					(clock),
 	.reset 					(reset),
-	.setup_imp				(setup_imp),
-	.setup_data				(0),
-	.set 						(flag),
-	.i_initial 				(0),
 	.work_en 				(start_stop),
-	.up_down					(0),
-	.timer_reset			(),
-	.rezhim					(),
-	.out_imp 				(sec_imp),
-	.data						()
-	);
+	.out_imp 				(sec_imp)
+	);	
 	
 	counter
 	#(

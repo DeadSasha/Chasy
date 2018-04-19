@@ -87,7 +87,7 @@ output logic [0:3] button
 	  #600 button[1] = ~button[1];
 	  #10 button[3] = ~button[3];
 	  #600 button[3] = ~button[3];
-	  #2 reset = ~reset;
+	  #100000 reset = ~reset;
 	  end
 	  
 	 // forever

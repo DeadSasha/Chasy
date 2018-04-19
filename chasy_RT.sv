@@ -12,7 +12,7 @@ logic min_imp;
 logic hour_imp;
 logic day_imp;
 
-	counter
+	divider
 	#(
 	.start_val 				(0),
 	.fin_val					(50000000)
@@ -21,17 +21,9 @@ logic day_imp;
 	(		
 	.clock 					(clock),
 	.reset 					(reset),
-	.setup_imp				(),
-	.setup_data				(),
-	.set 						(1'b0),
-	.i_initial 				(),
-	.work_en 				(1'b1),
-	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
-	.out_imp 				(sec_imp),
-	.data						()
-	);		
+	.work_en 				(1),
+	.out_imp 				(sec_imp)
+	);			
 			
 	counter		
 	#(		
