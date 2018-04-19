@@ -31,10 +31,10 @@ end else
 begin
 	if ((button[3] == 1) & (rezhim == 1))
 		begin
-			if (setup_rezhim_t != 0) start_stop <= ~start_stop;
-			else	start_stop = start_stop;
+			if (setup_rezhim_t == 0) start_stop <= ~start_stop;
+			else	start_stop <= start_stop;
 		end
-		else	start_stop = start_stop;
+		else	start_stop <= start_stop;
 end
 
 logic setup_imp;
@@ -63,7 +63,8 @@ else if (clock == 1)
 			begin
 				if (setup_rezhim_t == 0)
 					begin
-					setup_data_t <= data_t;
+					if (setup_imp == 1) setup_imp <= 0;
+					else setup_imp <= setup_imp;
 					end
 				else if ((setup_rezhim_t == 1) & (button[1] == 1)) 
 					begin
@@ -82,7 +83,7 @@ else if (clock == 1)
 					end
 				else if (setup_rezhim_t == 3) 
 					begin
-						if (button[2] == 1) setup_imp <= 1;
+						if (button[3] == 1) setup_imp <= 1;
 						else setup_imp <= 0;
 					end
 				else setup_data_t <= setup_data_t;

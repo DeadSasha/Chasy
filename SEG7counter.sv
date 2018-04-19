@@ -24,34 +24,37 @@ logic [7:0] sec;
 
 always_ff @(posedge clock)
 begin
-if (rezhim == 0)
+if (clock == 1)
 	begin
-	data <= data_ch;
-	hour <= data[23:16];
-	min <= data[15:8];
-	sec <= data[7:0];
-	end
-else if (rezhim == 1)
-	begin
-	if (setup_rezhim_t != 0) data <= setup_data_t;
-	else data <= data_t;
-	hour <= data[23:16];
-	min <= data[15:8];
-	sec <= data[7:0];	
-	end
-else if (rezhim == 2)
-	begin
-	data <= data_s;
-	hour <= data[23:16];
-	min <= data[15:8];
-	sec <= data[7:0];	
-	end
-else
-	begin
-	data <= setup_data;
-	hour <= data[23:16];
-	min <= data[15:8];
-	sec <= data[7:0];
+	if (rezhim == 0)
+		begin
+		data <= data_ch;
+		hour <= data[23:16];
+		min <= data[15:8];
+		sec <= data[7:0];
+		end
+	else if (rezhim == 1)
+		begin
+		if (setup_rezhim_t != 0) data <= setup_data_t;
+		else data <= data_t;
+		hour <= data[23:16];
+		min <= data[15:8];
+		sec <= data[7:0];	
+		end
+	else if (rezhim == 2)
+		begin
+		data <= data_s;
+		hour <= data[23:16];
+		min <= data[15:8];
+		sec <= data[7:0];	
+		end
+	else
+		begin
+		data <= setup_data;
+		hour <= data[23:16];
+		min <= data[15:8];
+		sec <= data[7:0];
+		end
 	end
 end
 
