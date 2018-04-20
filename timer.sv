@@ -34,11 +34,12 @@ begin
 			if (setup_rezhim_t == 0) start_stop <= ~start_stop;
 			else	start_stop <= start_stop;
 		end
+	else if (flag == 1)	start_stop <= 0;
 	else	start_stop <= start_stop;
 end
 
 
-always_ff @(posedge button[2])
+always_ff @(posedge clock)
 begin
 if (reset == 1) setup_rezhim_t <= 0;
 else 
@@ -182,7 +183,7 @@ led = led;
 if (data_t == 0) 
 	begin
 	led = '1;
-	flag <= 0;
+	flag <= 1;
 	end
 else 
 	begin
@@ -219,8 +220,6 @@ end
 	.i_initial 				(1'b0),
 	.work_en 				(sec_imp),
 	.up_down					(0),
-	.timer_reset			(flag),
-	.rezhim					(),
 	.out_imp 				(min_imp),
 	.data						(data_t[7:0])
 	);
@@ -240,8 +239,6 @@ end
 	.i_initial 				(1'b0),
 	.work_en 				(min_imp),
 	.up_down					(0),
-	.timer_reset			(flag),
-	.rezhim					(),
 	.out_imp 				(hour_imp),
 	.data						(data_t[15:8])
 	);		
@@ -261,8 +258,6 @@ end
 	.i_initial 				(1'b0),
 	.work_en 				(hour_imp),
 	.up_down					(0),
-	.timer_reset			(flag),
-	.rezhim					(),
 	.out_imp 				(day_imp),
 	.data						(data_t[23:16])
 	);	

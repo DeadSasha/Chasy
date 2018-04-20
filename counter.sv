@@ -13,7 +13,6 @@ input logic	i_initial,
 input logic work_en,
 input logic up_down,
 input logic timer_reset,
-input logic [1:0] rezhim,
 output logic out_imp,
 output logic [7:0] data
 );
@@ -27,12 +26,7 @@ begin
 		end
 	else 
 	begin
-		if (timer_reset == 1)
-			begin
-				out_imp <= 0;
-				data <= start_val;
-			end
-		else if (set == 1) 
+		if (set == 1) 
 			begin
 				out_imp <= 0;
 				data <= i_initial;

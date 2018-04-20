@@ -40,8 +40,6 @@ logic day_imp;
 	.i_initial 				(1'b0),
 	.work_en 				(sec_imp),
 	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
 	.out_imp 				(min_imp),
 	.data						(data_ch[7:0])
 	);		
@@ -61,8 +59,6 @@ logic day_imp;
 	.i_initial 				(1'b0),
 	.work_en 				(min_imp),
 	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
 	.out_imp 				(hour_imp),
 	.data						(data_ch[15:8])
 	);		
@@ -82,8 +78,6 @@ logic day_imp;
 	.i_initial 				(1'b0),
 	.work_en 				(hour_imp),
 	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
 	.out_imp 				(day_imp),
 	.data						(data_ch[23:16])
 	);	

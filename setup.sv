@@ -12,7 +12,7 @@ output logic setup_imp
 logic [1:0] setup_rezhim;
 
 
-always_ff @(posedge button[2])
+always_ff @(posedge clock)
 begin
 if (reset == 1) setup_rezhim <= 0;
 else
@@ -31,7 +31,7 @@ begin
 if (reset == 1) setup_data[7:0] <= 0;
 else
 	begin
-		if (rezhim == 1)
+		if (rezhim == 3)
 			begin
 				 if ((setup_rezhim == 1) & (button[1] == 1)) 
 					begin
@@ -51,7 +51,7 @@ begin
 if (reset == 1) setup_data[15:8] <= 0;
 else
 	begin
-		if (rezhim == 1)
+		if (rezhim == 3)
 			begin
 				if ((setup_rezhim == 2) & (button[1] == 1)) 
 					begin
@@ -70,7 +70,7 @@ begin
 if (reset == 1) setup_data[23:16] <= 0;
 else
 	begin
-		if (rezhim == 1)
+		if (rezhim == 3)
 			begin
 				if ((setup_rezhim == 3) & (button[1] == 1)) 
 					begin
@@ -89,7 +89,7 @@ begin
 if (reset == 1) setup_imp <= 0;
 else
 	begin
-		if (rezhim == 1)
+		if (rezhim == 3)
 			begin
 				if (setup_rezhim == 3) 
 					begin

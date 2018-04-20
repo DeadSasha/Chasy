@@ -23,7 +23,8 @@ begin
 end else
 begin
 	if ((button_start_stop == 1) & (rezhim == 2)) start_stop <= ~start_stop;  
-		else	start_stop = start_stop;
+		else	if (button_reset_en == 1) start_stop <= 0;
+		else start_stop <= start_stop;
 end
 
 always_ff @(posedge clock)
@@ -64,8 +65,6 @@ end
 	.i_initial 				(1'b0),
 	.work_en 				(sec_imp),
 	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
 	.out_imp 				(min_imp),
 	.data						(data_s[7:0])
 	);		
@@ -85,8 +84,6 @@ end
 	.i_initial 				(1'b0),
 	.work_en 				(min_imp),
 	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
 	.out_imp 				(hour_imp),
 	.data						(data_s[15:8])
 	);		
@@ -106,8 +103,6 @@ end
 	.i_initial 				(1'b0),
 	.work_en 				(hour_imp),
 	.up_down					(1),
-	.timer_reset			(),
-	.rezhim					(),
 	.out_imp 				(day_imp),
 	.data						(data_s[23:16])
 	);	
