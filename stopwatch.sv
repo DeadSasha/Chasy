@@ -16,8 +16,8 @@ logic start_stop;
 logic button_reset_en;
 
 
-always_ff @(posedge clock, negedge reset)
-if (~reset)
+always_ff @(posedge clock)
+if (reset == 1)
 begin
 	start_stop <= 0;
 end else
@@ -26,8 +26,8 @@ begin
 		else	start_stop = start_stop;
 end
 
-always_ff @(posedge clock, negedge reset)
-if (~reset)
+always_ff @(posedge clock)
+if (reset == 1)
 begin
 	button_reset_en <= 0;
 end else

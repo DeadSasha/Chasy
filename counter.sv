@@ -18,16 +18,15 @@ output logic out_imp,
 output logic [7:0] data
 );
 
-always_ff @(posedge clock,negedge reset)
+always_ff @(posedge clock)
 begin
-	if (~reset)
+	if (reset == 1)
 		begin
 			out_imp <= 0;
 			data <= start_val;
 		end
 	else 
 	begin
-	
 		if (timer_reset == 1)
 			begin
 				out_imp <= 0;

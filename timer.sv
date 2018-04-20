@@ -23,8 +23,8 @@ if ((button_start_stop == 1) & (rezhim == 1)) start_stop = start_stop + 1;
 else	start_stop = start_stop;
 end*/
 
-always_ff @(posedge clock, negedge reset)
-if (~reset)
+always_ff @(posedge clock)
+if (reset == 1)
 begin
 	start_stop <= 0;
 end else
@@ -37,11 +37,10 @@ begin
 	else	start_stop <= start_stop;
 end
 
-logic setup_imp;
 
-always_ff @(posedge button[2], negedge reset)
+always_ff @(posedge button[2])
 begin
-if (~reset) setup_rezhim_t <= 0;
+if (reset == 1) setup_rezhim_t <= 0;
 else 
 	begin
 		if (button[2] == 1) 
@@ -53,47 +52,126 @@ else
 	end
 end
 
-always_ff @(posedge clock, negedge reset)
+always_ff @(posedge clock)
 begin
-if (~reset) 
-	begin
-		setup_imp <= 0;
-		setup_data_t <= 0;
-	end
+if (reset == 1) setup_data_t[7:0] <= 0;
 else
 	begin
 		if (rezhim == 1)
 			begin
-				if (setup_rezhim_t == 0)
-					begin
-					if (setup_imp == 1) setup_imp <= 0;
-					else setup_imp <= setup_imp;
-					end
-				else if ((setup_rezhim_t == 1) & (button[1] == 1)) 
+				 if ((setup_rezhim_t == 1) & (button[1] == 1)) 
 					begin
 						if (setup_data_t[7:0] < 59) setup_data_t[7:0] <= setup_data_t[7:0] + 1;
 						else setup_data_t[7:0] <= 0;
 					end
-				else if ((setup_rezhim_t == 2) & (button[1] == 1)) 
+				else setup_data_t[7:0] <= setup_data_t[7:0];
+			end
+		else setup_data_t[7:0] <= setup_data_t[7:0];	
+	end
+end
+
+
+
+always_ff @(posedge clock)
+begin
+if (reset == 1) setup_data_t[15:8] <= 0;
+else
+	begin
+		if (rezhim == 1)
+			begin
+				if ((setup_rezhim_t == 2) & (button[1] == 1)) 
 					begin
 						if (setup_data_t[15:8] < 59) setup_data_t[15:8] <= setup_data_t[15:8] + 1;
 						else setup_data_t[15:8] <= 0;
 					end
-				else if ((setup_rezhim_t == 3) & (button[1] == 1)) 
+				else setup_data_t[15:8] <= setup_data_t[15:8];
+			end
+		else setup_data_t[15:8] <= setup_data_t[15:8];	
+	end
+end
+
+
+always_ff @(posedge clock)
+begin
+if (reset == 1) setup_data_t[23:16] <= 0;
+else
+	begin
+		if (rezhim == 1)
+			begin
+				if ((setup_rezhim_t == 3) & (button[1] == 1)) 
 					begin
 						if (setup_data_t[23:16] < 23) setup_data_t[23:16] <= setup_data_t[23:16] + 1;
 						else setup_data_t[23:16] <= 0;
 					end
-				else if (setup_rezhim_t == 3) 
+				else setup_data_t[23:16] <= setup_data_t[23:16];
+			end
+		else setup_data_t[23:16] <= setup_data_t[23:16];	
+	end
+end
+
+logic setup_imp;
+
+
+always_ff @(posedge clock)
+begin
+if (reset == 1) setup_imp <= 0;
+else
+	begin
+		if (rezhim == 1)
+			begin
+				if (setup_rezhim_t == 3) 
 					begin
 						if (button[3] == 1) setup_imp <= 1;
 						else setup_imp <= 0;
 					end
-				else setup_data_t <= setup_data_t;
+				else setup_imp <= setup_imp;
 			end
-		else setup_data_t <= setup_data_t;	
+		else setup_imp <= setup_imp;	
 	end
 end
+
+
+//always_ff @(posedge clock)
+//begin
+//if (reset == 1) 
+//	begin
+//		setup_imp <= 0;
+//		setup_data_t <= 0;
+//	end
+//else
+//	begin
+//		if (rezhim == 1)
+//			begin
+//				if (setup_rezhim_t == 0)
+//					begin
+//					if (setup_imp == 1) setup_imp <= 0;
+//					else setup_imp <= setup_imp;
+//					end
+//				else if ((setup_rezhim_t == 1) & (button[1] == 1)) 
+//					begin
+//						if (setup_data_t[7:0] < 59) setup_data_t[7:0] <= setup_data_t[7:0] + 1;
+//						else setup_data_t[7:0] <= 0;
+//					end
+//				else if ((setup_rezhim_t == 2) & (button[1] == 1)) 
+//					begin
+//						if (setup_data_t[15:8] < 59) setup_data_t[15:8] <= setup_data_t[15:8] + 1;
+//						else setup_data_t[15:8] <= 0;
+//					end
+//				else if ((setup_rezhim_t == 3) & (button[1] == 1)) 
+//					begin
+//						if (setup_data_t[23:16] < 23) setup_data_t[23:16] <= setup_data_t[23:16] + 1;
+//						else setup_data_t[23:16] <= 0;
+//					end
+//				else if (setup_rezhim_t == 3) 
+//					begin
+//						if (button[3] == 1) setup_imp <= 1;
+//						else setup_imp <= 0;
+//					end
+//				else setup_data_t <= setup_data_t;
+//			end
+//		else setup_data_t <= setup_data_t;	
+//	end
+//end
 
 logic flag;
 
@@ -104,12 +182,12 @@ led = led;
 if (data_t == 0) 
 	begin
 	led = '1;
-	flag = 0;
+	flag <= 0;
 	end
 else 
 	begin
 	led = 0;
-	flag = 0;
+	flag <= 0;
 	end
 end
 

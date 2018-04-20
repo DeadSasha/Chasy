@@ -24,9 +24,28 @@ logic [7:0] sec;
 
 always_ff @(posedge clock)
 begin
-if (reset == 0)
+if (reset == 1)
 	begin
 	data <= 0;
+	end
+else 
+	begin
+	if (rezhim == 0) data <= data_ch;
+	else if (rezhim == 1)
+		begin
+		if (setup_rezhim_t != 0) data <= setup_data_t;
+		else data <= data_t;
+		end
+	else if (rezhim == 2) data <= data_s;
+	else data <= setup_data;
+	end
+end
+
+
+always_ff @(posedge clock)
+begin
+if (reset == 1)
+	begin
 	hour <= 0;
 	min <= 0;
 	sec <= 0;
@@ -35,35 +54,32 @@ else
 	begin
 	if (rezhim == 0)
 		begin
-		data <= data_ch;
 		hour <= data[23:16];
 		min <= data[15:8];
 		sec <= data[7:0];
 		end
 	else if (rezhim == 1)
 		begin
-		if (setup_rezhim_t != 0) data <= setup_data_t;
-		else data <= data_t;
 		hour <= data[23:16];
 		min <= data[15:8];
-		sec <= data[7:0];	
+		sec <= data[7:0];
 		end
 	else if (rezhim == 2)
 		begin
-		data <= data_s;
 		hour <= data[23:16];
 		min <= data[15:8];
-		sec <= data[7:0];	
+		sec <= data[7:0];
 		end
 	else
 		begin
-		data <= setup_data;
 		hour <= data[23:16];
 		min <= data[15:8];
 		sec <= data[7:0];
 		end
 	end
 end
+
+
 
 bin_to_bcd TENS_ONES_HOUR
 (

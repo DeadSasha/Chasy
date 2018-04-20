@@ -54,9 +54,9 @@ antidrebezg button4
 );
 
 
-always_ff @(posedge clock, negedge reset)
+always_ff @(posedge clock)
 begin
-if (~reset) rezhim <= 0;
+if (reset == 1) rezhim <= 0;
 else 
 	begin
 		if (work_button[0] == 1) rezhim <= rezhim + 1;
